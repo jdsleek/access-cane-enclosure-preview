@@ -1,0 +1,427 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ACCESS Cane Enclosure 151</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: workshop drawing sheet. One column; a 3D bench viewer, then dimensioned views, then plate + open items. */
+:root{
+  --bg:#f3f2ef; --sheet:#fbfaf8; --ink:#1d1f22; --muted:#5f636a; --line:#d4d2cc; --grid:#e6e4df;
+  --accent:#d9620f; --accent-ink:#ffffff; --dim:#1f5fa8; --ok:#2e7d4f; --warn:#a86a00; --bad:#b3261e;
+  --viewer:#e9e7e2;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16181b; --sheet:#1d2024; --ink:#e8e6e1; --muted:#a2a6ad; --line:#353a40; --grid:#2a2e33;
+  --accent:#f08a3c; --accent-ink:#1a1206; --dim:#7fb0ea; --ok:#6cc495; --warn:#e2b04a; --bad:#f28b82; --viewer:#23272c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16181b; --sheet:#1d2024; --ink:#e8e6e1; --muted:#a2a6ad; --line:#353a40; --grid:#2a2e33;
+  --accent:#f08a3c; --accent-ink:#1a1206; --dim:#7fb0ea; --ok:#6cc495; --warn:#e2b04a; --bad:#f28b82; --viewer:#23272c; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:.01em}
+h1{font-size:clamp(28px,4.4vw,42px);line-height:1.05}
+h2{font-size:22px}
+h3{font-size:16px}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.head{display:grid;gap:10px}
+.status{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:var(--f-mono);font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--sheet);white-space:nowrap}
+.pill.ok{color:var(--ok);border-color:currentColor}.pill.warn{color:var(--warn);border-color:currentColor}.pill.bad{color:var(--bad);border-color:currentColor}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;gap:16px;min-width:0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:600 14px var(--f-body);padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tab:focus-visible,.ctl:focus-visible,button:focus-visible{outline:2px solid var(--dim);outline-offset:2px}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}
+@media (max-width:860px){.bench{grid-template-columns:minmax(0,1fr)}}
+#viewer{position:relative;background:var(--viewer);border-radius:4px;aspect-ratio:4/3;max-width:100%;overflow:hidden;touch-action:none}
+#viewer canvas{display:block;width:100%;height:100%}
+#vmsg{position:absolute;inset:auto 10px 10px 10px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.panel{display:grid;gap:14px;align-content:start;min-width:0}
+.ctlrow{display:grid;gap:6px}
+.ctlrow label{font-size:13px;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.ctl{font:500 13px var(--f-body);padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.ctl[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.legend{display:grid;gap:5px;font-size:13px}
+.legend label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.sw{width:12px;height:12px;border-radius:2px;flex:none;border:1px solid rgba(0,0,0,.2)}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:16px}
+.draw{overflow-x:auto;min-width:0}
+.draw svg{display:block;width:100%;height:auto;min-width:300px}
+.draw figcaption{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl{overflow-x:auto;min-width:0}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-family:var(--f-mono);font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:4px;padding:14px;display:grid;gap:8px;align-content:start;min-width:0}
+.card ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.tag{font-family:var(--f-mono);font-size:11px;padding:1px 6px;border-radius:3px;border:1px solid currentColor}
+.tag.m{color:var(--warn)}.tag.v{color:var(--ok)}
+.note{font-size:13px;color:var(--muted)}
+.steps{margin:0;padding-left:20px;display:grid;gap:6px}
+code,.mono{font-family:var(--f-mono);font-size:13px}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div class="eyebrow">ACCESS Smart Cane · Directive 151 · 3 Nov 2026 · preview for Founder approval</div>
+    <h1>Cane enclosure: four-eye and two-eye versions</h1>
+    <p>Two designs on the same 64 mm wide, 30 mm deep box. <b>A</b> carries two HC-SR04 boards: upper pair straight ahead, lower pair in a nose angled 18° down. <b>B</b> carries one HC-SR04 facing forward and is 20 mm shorter. Both have a centre indicator LED, a power slide switch, a micro-USB charge opening and two bottom cable outlets. Both hold Tope's controller board, battery and wiring on a removable tray, and clamp to the cane with two screw collars. Nothing has been sliced or printed.</p>
+    <div class="status">
+      <span class="pill ok">Both designs: no part collisions (CAD check)</span>
+      <span class="pill ok">Each fits one X1 Carbon plate</span>
+      <span class="pill warn">Sensor, board, battery, cane sizes: nominal, not yet measured</span>
+      <span class="pill bad">Bambu Studio not found on the Windows PC</span>
+    </div>
+  </header>
+
+  <section class="sheet" aria-labelledby="bench-h">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+      <h2 id="bench-h">3D bench</h2>
+      <div class="tabs" role="tablist" aria-label="Design">
+        <button class="tab" role="tab" id="tab-four" aria-selected="true" data-v="four">A · 4 eyes · 130 mm</button>
+        <button class="tab" role="tab" id="tab-two" aria-selected="false" data-v="two">B · 2 eyes · 110 mm</button>
+        <button class="tab" role="tab" id="tab-plate" aria-selected="false" data-v="plate">X1C plates</button>
+      </div>
+    </div>
+    <div class="bench">
+      <div id="viewer" aria-label="Interactive 3D model; drag to rotate, scroll or pinch to zoom"><div id="vmsg">Loading models…</div></div>
+      <div class="panel" id="panel">
+        <div class="ctlrow">
+          <label for="xray">Shell transparency (see inside)</label>
+          <input type="range" id="xray" min="0" max="100" value="55">
+        </div>
+        <div class="ctlrow">
+          <label for="explode">Explode parts</label>
+          <input type="range" id="explode" min="0" max="100" value="0">
+        </div>
+        <div class="ctlrow">
+          <label>View</label>
+          <div class="btns">
+            <button class="ctl" data-cam="front34" id="cam-front34">3/4 front</button>
+            <button class="ctl" data-cam="front" id="cam-front">Front</button>
+            <button class="ctl" data-cam="side" id="cam-side">Side</button>
+            <button class="ctl" data-cam="back" id="cam-back">Back</button>
+          </div>
+        </div>
+        <div class="ctlrow">
+          <label>Show</label>
+          <div class="legend" id="legend"></div>
+        </div>
+        <p class="note">Hardware shown is the nominal size. Wires are drawn to show routing; real wires will be loose.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="shots-h">
+    <h2 id="shots-h">Still renders</h2>
+    <p class="note">Rendered from the CAD. Box shown see-through so the sensors, controller, battery and wiring are visible.</p>
+    <div class="views">
+      <figure class="draw" style="margin:0"><img src="img/four_side.png" alt="Design A from the right side: straight box on the cane, upper eyes forward, nose with lower eyes tilted 18 degrees down" loading="lazy"><figcaption>A · side</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="img/four_front.png" alt="Design A seen from the front" loading="lazy"><figcaption>A · front</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="img/two_side.png" alt="Design B from the right side: straight box, one pair of eyes forward" loading="lazy"><figcaption>B · side</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="img/two_front.png" alt="Design B seen from the front" loading="lazy"><figcaption>B · front</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="dims-h">
+    <h2 id="dims-h">Dimensioned views <span class="mono" id="dims-v" style="color:var(--muted);font-size:14px"></span></h2>
+    <div class="views">
+      <figure class="draw" style="margin:0"><div id="svg-front"></div><figcaption>Front, as worn. Units mm.</figcaption></figure>
+      <figure class="draw" style="margin:0"><div id="svg-side"></div><figcaption>Right side. Cane behind, user walks to the left.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="spec-h">
+    <h2 id="spec-h">Key dimensions</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Item</th><th>A · 4 eyes</th><th>B · 2 eyes</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Box outside (W × H × D)</td><td class="n">64 × 130 × 30</td><td class="n">64 × 110 × 30</td><td>146 approved envelope; B shortened</td></tr>
+        <tr><td>Inside cavity</td><td class="n">59.2 × 125.2 × 27.6</td><td class="n">59.2 × 105.2 × 27.6</td><td>2.4 mm walls (6 lines)</td></tr>
+        <tr><td>Sensor openings</td><td class="n">4 × Ø17.4</td><td class="n">2 × Ø17.4</td><td>16 mm can + 0.7 mm per side <span class="tag m">confirm on gauge</span></td></tr>
+        <tr><td>Eye centre pitch (side by side)</td><td class="n">26.0</td><td class="n">26.0</td><td>HC-SR04 nominal <span class="tag m">measure</span></td></tr>
+        <tr><td>Upper eye height (from box top)</td><td class="n">21.0</td><td class="n">21.0</td><td>clears corner screw bosses</td></tr>
+        <tr><td>Lower eyes</td><td class="n">axis 18° down, centre 26 mm above box bottom</td><td class="n">none</td><td>Founder 18°</td></tr>
+        <tr><td>Upper to lower eye spacing</td><td class="n">83 mm (vertical)</td><td class="n">n/a</td><td>keeps the two beams apart</td></tr>
+        <tr><td>Nose (lower sensor housing)</td><td class="n">56 wide · sticks out 8 to 26.2</td><td class="n">none</td><td>4 × M3 from inside the box</td></tr>
+        <tr><td>Can protrusion past the face</td><td class="n">5.1</td><td class="n">5.1</td><td>board 4.5 mm behind the wall</td></tr>
+        <tr><td>Sensor board seat</td><td class="n" colspan="2">4 rest ribs + 2 screw tabs per board, M3 × 8 self-tapping</td><td>no screws through the HC-SR04</td></tr>
+        <tr><td>Controller cradle</td><td class="n" colspan="2">31 × 56 inside, 3 mm pads, 4 tie-slot pairs, 10 mm parts height</td><td>Tope's vero ~30 × 55 <span class="tag m">measure</span></td></tr>
+        <tr><td>Battery space</td><td class="n">51 × 35 cradle on tray, strap channel</td><td class="n">51 × 35 pocket on front wall</td><td>503450 LiPo placeholder <span class="tag m">identify</span></td></tr>
+        <tr><td>Clearance: sensor plugs to controller parts</td><td class="n">3.4</td><td class="n">3.4</td><td>CAD clash check: no overlap</td></tr>
+        <tr><td>Cane clamp</td><td class="n" colspan="2">2 split collars 18 wide, bore Ø22, 2 × M4 + captured nut each; cane axis 18 mm behind box</td><td>bore is a placeholder <span class="tag m">measure cane</span></td></tr>
+        <tr><td>Total depth, front to cane back</td><td class="n">90 (nose top)</td><td class="n">69 (can tips)</td><td>includes clamp caps</td></tr>
+        <tr><td>Indicator LED</td><td class="n">Ø5.2, centre, 68 up</td><td class="n">Ø5.2, centre, 53 up</td><td>5 mm LED on an inner sleeve, dome ~1 mm proud</td></tr><tr><td>Power switch</td><td class="n">right wall, 66 up</td><td class="n">right wall, 62 up</td><td>slide-switch slot 6.5 × 3.2 + body pocket 9 × 4 <span class="tag m">confirm switch</span></td></tr><tr><td>Charge port</td><td class="n">left wall, 40 up</td><td class="n">left wall, 66 up</td><td>micro-USB (Android) plug opening 12 × 7.5</td></tr><tr><td>Cable outlets</td><td class="n" colspan="2">Ø8 + Ø6 in the bottom, with strain-relief collars</td><td>vibration motor / handle</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="sheet" aria-labelledby="diff-h">
+    <h2 id="diff-h">What changed from the last design (146)</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Item</th><th>146 (printed on the Anet)</th><th>Now</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Openings</td><td class="n">2 × Ø17.0, one each</td><td class="n">A: 4 × Ø17.4 · B: 2 × Ø17.4</td><td>Two full HC-SR04 boards, two eyes each (Founder)</td></tr>
+        <tr><td>Eye arrangement</td><td>one column (COL)</td><td>side by side, 26 apart</td><td>HC-SR04 pins then point down, so the plugs fit inside without bending</td></tr>
+        <tr><td>Box</td><td class="n">64 × 130 × 30</td><td class="n">A same · B 64 × 110 × 30</td><td>B is the shorter two-eye test</td></tr>
+        <tr><td>Nose</td><td>18°, 50 wide</td><td>18°, 56 wide (A only)</td><td>a 45.6 mm board now fits across it</td></tr>
+        <tr><td>Electronics</td><td>two loose trays 50 × 65 and 50 × 38</td><td>one tray: battery + controller cradles, tie slots, pads</td><td>one part to fit Tope's boards to, screws to the back plate</td></tr>
+        <tr><td>Ports</td><td>7 mm round switch hole, USB-C slots</td><td>centre LED, slide switch slot, micro-USB charge, 2 cable outlets</td><td>Founder 3 Nov</td></tr>
+        <tr><td>Clamp spine</td><td>touched the cane by 1 mm</td><td>0.5 mm gap</td><td>clash found in the CAD check</td></tr>
+        <tr><td>Printer</td><td>Anet A8 Plus, SD card</td><td>Bambu X1 Carbon, one plate</td><td>new printer</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="sheet" aria-labelledby="print-h">
+    <h2 id="print-h">Printing plan (after you approve)</h2>
+    <div class="cmp">
+      <div class="card">
+        <h3>Step 1 · Fit gauge (recommended first)</h3>
+        <p>The front wall and ribs around the upper eyes, plus the nose for A, with the screw tabs. You press the real HC-SR04 boards in and check the eyes line up before printing the whole box.</p>
+        <ul><li>A gauge: 64 × 32 slice + nose + 4 tabs</li><li>B gauge: 64 × 32 slice + 2 tabs</li><li>Small print; time comes from the slicer</li></ul>
+      </div>
+      <div class="card">
+        <h3>Step 2 · Full set, one plate</h3>
+        <p>All parts on one 256 × 256 X1 Carbon plate with no overlaps: box, back plate with collars, 2 caps, tray, tabs, and the nose for A.</p>
+        <ul><li>A: 10 pieces, tallest 30 mm</li><li>B: 9 pieces, tallest 30 mm</li><li>Grams and time: reported after slicing in Bambu Studio</li></ul>
+      </div>
+      <div class="card">
+        <h3>Hardware to have ready</h3>
+        <ul>
+          <li>M3 × 10: 4 (box to back plate)</li>
+          <li>M3 × 8 self-tapping: 4 for A, 2 for B (sensor tabs)</li>
+          <li>M3 × 8: 4 (nose, A only)</li>
+          <li>M3 × 6 countersunk: 4 (tray)</li>
+          <li>M4 × 20 + M4 nut: 4 each (collars)</li>
+          <li>20 mm hook-and-loop strap, small cable ties, foam tape</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="open-h">
+    <h2 id="open-h">Before the full print</h2>
+    <div class="cmp">
+      <div class="card">
+        <h3>Measure with calipers</h3>
+        <ul>
+          <li>HC-SR04: can diameter, eye centre pitch, board size</li>
+          <li>Cane: outside diameter where the box mounts</li>
+          <li>Tope's controller board: tallest part and solder underneath (recovered: ESP32-C3 ~25 × 18, MPU6050 ~21 × 15, vero 55 × 30)</li>
+          <li>Battery: type and size, and where the charge socket is</li><li>Power slide switch: body size</li>
+        </ul>
+        <p class="note">Each number is one parameter in the CAD. A change regenerates both designs.</p>
+      </div>
+      <div class="card">
+        <h3>X1 Carbon connection</h3>
+        <p>Bambu Studio is not installed on this Windows PC. I found no install, no app data and no Start menu entry, so I have not connected to the printer. Nothing has been sent to it.</p>
+        <p class="note">Once Bambu Studio is installed and signed in to your Bambu account, I can confirm the printer is online and slice with the real X1C profile.</p>
+      </div>
+      <div class="card">
+        <h3>Source files</h3>
+        <p class="mono" style="word-break:break-all">D:/ZAP-ENGINEERING/opus-enclosure-151-20261103/enclosure_151.scad</p>
+        <p class="note">One file; <code>V="four"</code> or <code>V="two"</code>. Original COL, A2 and 146 files are kept read-only in <code>originals-READONLY</code> with SHA-256 sums.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const P = {
+  four:{label:"A · 4 eyes",H:130,up_y:109,nose:true,led:68,sw:66,chg:40},
+  two:{label:"B · 2 eyes",H:110,up_y:89,nose:false,led:53,sw:62,chg:66}
+};
+const C = {W:64,BD:30,t:2.4,PT:4,hole:17.4,pitch:26,can:16,canP:5.1,cane:22,caneZ:48,cw:18,tilt:18,n_y0:6,n_y1:62,n_w:56,n_dbot:8,lowY:26.0};
+const PARTS = [
+  {f:"u_body",   name:"Box",                 c:"#3b3f45", shell:true, ex:[0,0,0]},
+  {f:"u_nose",   name:"Nose (lower sensor)", c:"#2c3035", shell:true, ex:[0,0,-35], only:"four"},
+  {f:"u_plate",  name:"Back plate + collars",c:"#555b63", ex:[0,0,45]},
+  {f:"u_caps",   name:"Collar caps",         c:"#d9620f", ex:[0,0,70]},
+  {f:"u_tray",   name:"Electronics tray",    c:"#5f9e57", ex:[0,0,28]},
+  {f:"u_tabs",   name:"Sensor clamp tabs",   c:"#e8a33b", ex:[0,0,6]},
+  {f:"hw_boards",name:"HC-SR04 boards",      c:"#2f6fbf", hw:true, ex:[0,0,3]},
+  {f:"hw_cans",  name:"Sensor eyes",         c:"#d0d3d6", hw:true, ex:[0,0,3]},
+  {f:"hw_pins",  name:"Header pins + plugs", c:"#111111", hw:true, ex:[0,0,3]},
+  {f:"hw_ctrl",  name:"Controller (placeholder)", c:"#1e7a45", hw:true, ex:[0,0,20]},
+  {f:"hw_batt",  name:"Battery (placeholder)",    c:"#8a9bb0", hw:true, ex:[0,0,20]},
+  {f:"hw_wires", name:"Wiring",              c:"#d2322d", hw:true, ex:[0,0,12]},
+  {f:"hw_io",    name:"LED + slide switch",  c:"#f2c94c", hw:true, ex:[0,0,10]},
+  {f:"hw_cane",  name:"Cane Ø22",            c:"#e9e9e9", ex:[0,0,70]}
+];
+let variant="four";
+const el=document.getElementById("viewer"), msg=document.getElementById("vmsg");
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- dimensioned SVG views ---------- */
+function svgFront(v){
+  const p=P[v], s=3, m=46, W=C.W*s, H=p.H*s, vw=W+m*2+40, vh=H+m*2+ (p.nose?20:0);
+  const X=x=>m+x*s, Y=y=>m+(p.H-y)*s;
+  let g=`<svg viewBox="0 0 ${vw} ${vh}" role="img" aria-label="Front view with dimensions" font-family="IBM Plex Mono,monospace" font-size="11">`;
+  g+=`<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="var(--dim)"/></marker></defs>`;
+  g+=`<rect x="${X(0)}" y="${Y(p.H)}" width="${W}" height="${H}" rx="${7*s}" fill="var(--grid)" stroke="var(--ink)" stroke-width="1.5"/>`;
+  [[C.W/2-5.6-26.4+26.4-26.4,5.6]].length;
+  for(const x of [C.W/2-26.4,C.W/2+26.4]) for(const y of [5.6,p.H-5.6]) g+=`<circle cx="${X(x)}" cy="${Y(y)}" r="${1.7*s}" fill="none" stroke="var(--muted)"/>`;
+  for(const sx of [-1,1]){ g+=`<circle cx="${X(C.W/2+sx*C.pitch/2)}" cy="${Y(p.up_y)}" r="${C.hole/2*s}" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="${X(C.W/2+sx*C.pitch/2)}" cy="${Y(p.up_y)}" r="${C.can/2*s}" fill="none" stroke="var(--muted)" stroke-dasharray="3 3"/>`; }
+  g+=`<circle cx="${X(C.W/2)}" cy="${Y(p.led)}" r="${2.6*s}" fill="#f2c94c" stroke="var(--ink)"/><text x="${X(C.W/2)+12}" y="${Y(p.led)+4}" fill="var(--dim)">LED Ø5.2</text>`;
+  g+=`<rect x="${X(C.W)}" y="${Y(p.sw+3.25)}" width="5" height="${6.5*s}" fill="var(--accent)"/><text x="${X(C.W)+8}" y="${Y(p.sw)+16}" fill="var(--muted)">switch</text>`;
+  g+=`<rect x="${X(0)-5}" y="${Y(p.chg+6)}" width="5" height="${12*s}" fill="var(--accent)"/><text x="${X(0)-8}" y="${Y(p.chg)+20}" fill="var(--muted)" text-anchor="end">micro-USB</text>`;
+  if(p.nose){
+    g+=`<rect x="${X(C.W/2-C.n_w/2)}" y="${Y(C.n_y1)}" width="${C.n_w*s}" height="${(C.n_y1-C.n_y0)*s}" rx="3" fill="var(--line)" stroke="var(--ink)" stroke-width="1.5"/>`;
+    const ry=C.hole/2*s*Math.cos(C.tilt*Math.PI/180);
+    for(const sx of [-1,1]) g+=`<ellipse cx="${X(C.W/2+sx*C.pitch/2)}" cy="${Y(C.lowY)}" rx="${C.hole/2*s}" ry="${ry}" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1.5"/>`;
+  }
+  const dim=(x1,y1,x2,y2,t,tx,ty,anchor)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--dim)" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="${tx}" y="${ty}" fill="var(--dim)" text-anchor="${anchor||"middle"}">${t}</text>`;
+  const ext=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--dim)" stroke-width=".6" stroke-dasharray="2 2"/>`;
+  // overall width
+  g+=ext(X(0),Y(p.H),X(0),Y(p.H)-26)+ext(X(C.W),Y(p.H),X(C.W),Y(p.H)-26)+dim(X(0),Y(p.H)-20,X(C.W),Y(p.H)-20,"64",X(C.W/2),Y(p.H)-25);
+  // overall height
+  g+=ext(X(C.W),Y(0),X(C.W)+34,Y(0))+ext(X(C.W),Y(p.H),X(C.W)+34,Y(p.H))+dim(X(C.W)+28,Y(0),X(C.W)+28,Y(p.H),"",0,0)+`<text x="${X(C.W)+34}" y="${Y(p.H/2)}" fill="var(--dim)">${p.H}</text>`;
+  // pitch
+  g+=dim(X(C.W/2-13),Y(p.up_y)+C.hole/2*s+14,X(C.W/2+13),Y(p.up_y)+C.hole/2*s+14,"26",X(C.W/2),Y(p.up_y)+C.hole/2*s+28);
+  // hole dia leader
+  g+=`<line x1="${X(C.W/2+13)+C.hole/2*s*.7}" y1="${Y(p.up_y)-C.hole/2*s*.7}" x2="${X(C.W/2+13)+30}" y2="${Y(p.up_y)-40}" stroke="var(--dim)"/><text x="${X(C.W/2+13)+12}" y="${Y(p.up_y)-44}" fill="var(--dim)">Ø17.4</text>`;
+  // eye from top
+  g+=ext(X(0),Y(p.up_y),X(0)-30,Y(p.up_y))+dim(X(0)-24,Y(p.H),X(0)-24,Y(p.up_y),"",0,0)+`<text x="${X(0)-28}" y="${Y(p.H-10.5)+4}" fill="var(--dim)" text-anchor="end">21</text>`;
+  if(p.nose){
+    g+=ext(X(0),Y(C.lowY),X(0)-30,Y(C.lowY))+dim(X(0)-24,Y(0),X(0)-24,Y(C.lowY),"",0,0)+`<text x="${X(0)-28}" y="${Y(C.lowY/2)+4}" fill="var(--dim)" text-anchor="end">26</text>`;
+    g+=dim(X(C.W/2-C.n_w/2),Y(0)+16,X(C.W/2+C.n_w/2),Y(0)+16,"nose 56",X(C.W/2),Y(0)+32);
+  }
+  return g+`</svg>`;
+}
+function svgSide(v){
+  const p=P[v], s=3, zmin=p.nose?-30:-10, zmax=66, m=40;
+  const vw=(zmax-zmin)*s+m*2, vh=(p.H+40)*s+m;
+  const X=z=>m+(z-zmin)*s, Y=y=>m+(p.H+20-y)*s;
+  const ta=Math.tan(C.tilt*Math.PI/180);
+  let g=`<svg viewBox="0 0 ${vw} ${vh}" role="img" aria-label="Side view with dimensions" font-family="IBM Plex Mono,monospace" font-size="11">`;
+  g+=`<defs><marker id="ar2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="var(--dim)"/></marker></defs>`;
+  // cane
+  g+=`<rect x="${X(C.caneZ-C.cane/2)}" y="${Y(p.H+20)}" width="${C.cane*s}" height="${(p.H+40)*s}" fill="var(--grid)" stroke="var(--muted)"/>`;
+  // collars
+  for(const y of [4,p.H-4-C.cw]) g+=`<rect x="${X(C.BD+C.PT)}" y="${Y(y+C.cw)}" width="${(C.caneZ+16-C.BD-C.PT)*s}" height="${C.cw*s}" fill="var(--accent)" opacity=".85"/>`;
+  // plate + box
+  g+=`<rect x="${X(C.BD)}" y="${Y(p.H)}" width="${C.PT*s}" height="${p.H*s}" fill="var(--muted)"/>`;
+  g+=`<rect x="${X(0)}" y="${Y(p.H)}" width="${C.BD*s}" height="${p.H*s}" rx="4" fill="var(--line)" stroke="var(--ink)" stroke-width="1.5"/>`;
+  // upper can
+  g+=`<rect x="${X(-C.canP)}" y="${Y(p.up_y+8)}" width="${(C.canP+C.t)*s}" height="${16*s}" fill="var(--sheet)" stroke="var(--ink)"/>`;
+  g+=`<line x1="${X(-C.canP)}" y1="${Y(p.up_y)}" x2="${X(zmin)+4}" y2="${Y(p.up_y)}" stroke="var(--accent)" stroke-dasharray="6 4"/>`;
+  if(p.nose){
+    const z0=-C.n_dbot, z1=-C.n_dbot-(C.n_y1-C.n_y0)*ta;
+    g+=`<polygon points="${X(0)},${Y(C.n_y0)} ${X(z0)},${Y(C.n_y0)} ${X(z1)},${Y(C.n_y1)} ${X(0)},${Y(C.n_y1)}" fill="var(--line)" stroke="var(--ink)" stroke-width="1.5"/>`;
+    // lower beam
+    const yl=C.lowY, zl=-C.n_dbot-(yl-C.n_y0)*ta; const L=40;
+    g+=`<line x1="${X(zl)}" y1="${Y(yl)}" x2="${X(zl-L*Math.cos(C.tilt*Math.PI/180))}" y2="${Y(yl-L*Math.sin(C.tilt*Math.PI/180))}" stroke="var(--accent)" stroke-dasharray="6 4"/>`;
+    g+=`<text x="${X(zl-L)+2}" y="${Y(yl)-6}" fill="var(--accent)">18° down</text>`;
+    g+=`<line x1="${X(zl)}" y1="${Y(yl)}" x2="${X(zl-30)}" y2="${Y(yl)}" stroke="var(--muted)" stroke-width=".7"/>`;
+    g+=`<line x1="${X(z1)}" y1="${Y(C.n_y1)-14}" x2="${X(0)}" y2="${Y(C.n_y1)-14}" stroke="var(--dim)" marker-start="url(#ar2)" marker-end="url(#ar2)"/><text x="${X(z1/2)}" y="${Y(C.n_y1)-19}" fill="var(--dim)" text-anchor="middle">26.2</text>`;
+  }
+  g+=`<text x="${X(zmin)+4}" y="${Y(p.up_y)-6}" fill="var(--accent)">straight</text>`;
+  // depth dims
+  const yb=Y(0)+18;
+  g+=`<line x1="${X(0)}" y1="${yb}" x2="${X(C.BD)}" y2="${yb}" stroke="var(--dim)" marker-start="url(#ar2)" marker-end="url(#ar2)"/><text x="${X(C.BD/2)}" y="${yb+14}" fill="var(--dim)" text-anchor="middle">30</text>`;
+  g+=`<line x1="${X(0)}" y1="${yb+28}" x2="${X(C.caneZ)}" y2="${yb+28}" stroke="var(--dim)" marker-start="url(#ar2)" marker-end="url(#ar2)"/><text x="${X(C.caneZ/2)}" y="${yb+42}" fill="var(--dim)" text-anchor="middle">48 to cane axis</text>`;
+  g+=`<text x="${X(C.caneZ)}" y="${Y(p.H+20)-6}" fill="var(--muted)" text-anchor="middle">cane Ø22*</text>`;
+  g+=`<text x="${X(C.BD+C.PT+10)}" y="${Y(p.H-4)+4}" fill="var(--accent-ink)" font-size="10"></text>`;
+  return g+`</svg>`;
+}
+function drawDims(){
+  const v=variant==="plate"?"four":variant;
+  document.getElementById("svg-front").innerHTML=svgFront(v);
+  document.getElementById("svg-side").innerHTML=svgSide(v);
+  document.getElementById("dims-v").textContent="· "+P[v].label;
+}
+
+/* ---------- 3D ---------- */
+if(!window.THREE||!THREE.STLLoader||!THREE.OrbitControls){ msg.textContent="3D viewer could not load. The drawings below still show every dimension."; drawDims(); bindTabs(); return; }
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+el.appendChild(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(32,4/3,1,3000);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x667080,0.75));
+const d1=new THREE.DirectionalLight(0xffffff,0.75); d1.position.set(-200,300,-250); scene.add(d1);
+const d2=new THREE.DirectionalLight(0xffffff,0.35); d2.position.set(250,100,300); scene.add(d2);
+const loader=new THREE.STLLoader();
+const cache={}; let groups={}; const vis={};
+function load(path){ if(cache[path]) return cache[path];
+  cache[path]=fetch(path.replace(/\.stl$/,".txt")).then(r=>{ if(!r.ok) throw new Error(path); return r.text(); }).then(t=>{ const bin=atob(t.trim()); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return u.buffer; }).then(b=>{ const g=loader.parse(b); g.computeVertexNormals(); return g; });
+  return cache[path]; }
+let root=new THREE.Group(); scene.add(root);
+function clear(){ scene.remove(root); root.traverse(o=>{ if(o.material) o.material.dispose(); }); root=new THREE.Group(); scene.add(root); groups={}; }
+function setCam(k){
+  if(variant==="plate"){ camera.position.set(128,330,-150); controls.target.set(128,0,128); controls.update(); return; }
+  const H=P[variant].H, c=new THREE.Vector3(32,H/2,15);
+  const pos={front34:[-150,H*0.85,-230],front:[32,H/2,-330],side:[-330,H/2,20],back:[200,H*0.8,260]}[k]||[-150,H*0.85,-230];
+  camera.position.set(...pos); controls.target.copy(c); controls.update();
+  document.querySelectorAll("[data-cam]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cam===k)));
+}
+function applyLook(){
+  const x=document.getElementById("xray").value/100, e=document.getElementById("explode").value/100;
+  for(const k in groups){ const o=groups[k]; const pd=o.userData.part;
+    if(pd.shell){ o.material.opacity=1-x*0.85; o.material.transparent=x>0.01; o.material.depthWrite=x<0.01; }
+    o.position.set(pd.ex[0]*e,pd.ex[1]*e,pd.ex[2]*e); o.visible=vis[pd.f]!==false; }
+}
+function buildLegend(){
+  const L=document.getElementById("legend"); L.innerHTML="";
+  if(variant==="plate"){ L.innerHTML='<p class="note">Top: full set on one 256 × 256 plate. Grey square = X1C bed. Orange: fit-gauge plate, shown beside it.</p>'; return; }
+  PARTS.filter(p=>!p.only||p.only===variant).forEach(p=>{
+    const id="lg-"+p.f; const lab=document.createElement("label");
+    lab.innerHTML=`<input type="checkbox" id="${id}" ${vis[p.f]===false?"":"checked"}><span class="sw" style="background:${p.c}"></span>${p.name}`;
+    lab.querySelector("input").addEventListener("change",ev=>{ vis[p.f]=ev.target.checked; applyLook(); render(); });
+    L.appendChild(lab); });
+}
+function show(v){
+  variant=v; clear(); buildLegend(); drawDims();
+  document.getElementById("panel").querySelectorAll(".ctlrow").forEach((r,i)=>{ r.hidden = v==="plate" && i<3; });
+  msg.textContent="Loading models…";
+  if(v==="plate"){
+    const bed=new THREE.Mesh(new THREE.BoxGeometry(256,1,256),new THREE.MeshStandardMaterial({color:0x8a8f96,roughness:.9}));
+    bed.position.set(128,-0.6,128); root.add(bed);
+    const bed2=bed.clone(); bed2.position.x=128+290; root.add(bed2);
+    Promise.all([load("four/bed.stl"),load("four/gauge_bed.stl")]).then(([a,b])=>{
+      const m1=new THREE.Mesh(a,new THREE.MeshStandardMaterial({color:0x3b3f45,roughness:.6})); m1.rotation.x=-Math.PI/2; m1.position.set(0,0,256); root.add(m1);
+      const m2=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:0xd9620f,roughness:.6})); m2.rotation.x=-Math.PI/2; m2.position.set(290,0,256); root.add(m2);
+      msg.textContent="Design A shown. Left: full set (10 pieces). Right: fit gauge. Both fit a 256 × 256 plate."; camera.position.set(270,420,-120); controls.target.set(270,0,128); controls.update(); render();
+    }).catch(()=>{ msg.textContent="Plate models failed to load."; });
+    return;
+  }
+  const list=PARTS.filter(p=>!p.only||p.only===v);
+  Promise.all(list.map(p=>load(v+"/"+p.f+".stl").then(g=>[p,g]))).then(arr=>{
+    if(variant!==v) return;
+    arr.forEach(([p,g])=>{ const mat=new THREE.MeshStandardMaterial({color:p.c,roughness:p.hw?.45:.7,metalness:p.f==="hw_cans"?.5:0,side:THREE.DoubleSide});
+      const m=new THREE.Mesh(g,mat); m.userData.part=p; groups[p.f]=m; root.add(m); });
+    applyLook(); setCam("front34"); msg.textContent="Drag to rotate · scroll or pinch to zoom · right-drag to pan"; render();
+  }).catch(e=>{ msg.textContent="A model failed to load ("+e.message+")."; });
+}
+function resize(){ const w=el.clientWidth,h=el.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); render(); }
+let raf=0; function render(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; controls.update(); renderer.render(scene,camera); }); }
+controls.addEventListener("change",render);
+(function loop(){ controls.update(); renderer.render(scene,camera); requestAnimationFrame(loop); })();
+window.addEventListener("resize",resize);
+document.getElementById("xray").addEventListener("input",()=>{applyLook();render();});
+document.getElementById("explode").addEventListener("input",()=>{applyLook();render();});
+document.querySelectorAll("[data-cam]").forEach(b=>b.addEventListener("click",()=>setCam(b.dataset.cam)));
+function bindTabs(){
+  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(o=>o.setAttribute("aria-selected",String(o===t)));
+    if(window.THREE&&renderer) show(t.dataset.v); else { variant=t.dataset.v; drawDims(); }
+  }));
+}
+bindTabs(); resize(); show("four");
+})();
+</script>
