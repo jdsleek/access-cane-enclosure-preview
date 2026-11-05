@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ACCESS Cane Enclosure 151</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ACCESS Cane Designs</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
@@ -71,8 +71,54 @@ code,.mono{font-family:var(--f-mono);font-size:13px}
 
 <div class="wrap">
   <header class="head">
+    <div class="eyebrow">ACCESS Smart Cane · all device designs · updated 5 Nov 2026 10:55 WAT</div>
+    <h1>ACCESS cane designs</h1>
+    <p>All ACCESS physical designs are on this one page. The CAD source and every file are also in <a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS">GitHub DESIGNS</a>.</p>
+    <table><thead><tr><th>Design</th><th>Status</th></tr></thead><tbody>
+      <tr><td><a href="#clamp-h"><b>V1 wrap-around cane clamp</b></a>: one screw, fits the thin stick, works with the present device</td><td><span class="pill warn">ACTIVE today · fit test next · not printed</span></td></tr>
+      <tr><td><a href="#bench-h">Enclosure 151: four-eye (A) and two-eye (B)</a></td><td><span class="pill">Preview from 3 Nov</span></td></tr>
+      <tr><td>Designer casing (WhatsApp 3mf, 4 Nov 23:59)</td><td><span class="pill bad">ON HOLD: Founder said do not print (stopped 5 Nov 09:22 while preheating)</span></td></tr>
+      <tr><td><a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS/V1-CANE-CLAMP/archive-full-catcher">Full V1 catcher drafts (cradle + bridge)</a></td><td><span class="pill">Archived option</span></td></tr>
+    </tbody></table>
+  </header>
+
+  <section class="sheet" aria-labelledby="clamp-h">
+    <div class="eyebrow">Directives 165–168 · Founder feedback 5 Nov</div>
+    <h2 id="clamp-h">V1 wrap-around cane clamp (ACTIVE)</h2>
+    <p><b>The problem.</b> The printed catcher's clamp was far too big for the thin white cane: it needed a packing shim and was still loose. The earlier fix was a closed ring, and that could only slide on over the end of the stick. Founder: <i>"you can only close it in"</i>.</p>
+    <p><b>The fix: it closes around the stick from the side.</b> There are two halves. A hook on the dark half rides on a round bar on the blue half, so there is no loose hinge pin. Open the jaw, put it around the stick at any height, close it, and tighten <b>ONE M3 × 16 screw</b>. The nut is captured in the plastic and the screw never touches the cane. The same orange shoe bolts to the <b>existing catcher</b> (2 × M4), so the present device is reused. The box slides off and the clamp stays on.</p>
+    <div class="status">
+      <span class="pill ok">Halves do not collide, closed or 55° open (CAD check)</span>
+      <span class="pill ok">All STLs closed, 0 bad edges</span>
+      <span class="pill ok">Prints with no supports</span>
+      <span class="pill warn">Cane size 16.2 mm from the tape video: provisional</span>
+      <span class="pill warn">Catcher hole spacing 30 mm: check on the part</span>
+    </div>
+    <div class="cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+      <figure class="draw" style="margin:0"><img src="clamp/top.png" alt="Top view, clamp closed around the cane" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>Closed (top view). Hinge on the left, ONE screw through the heavy ears on the right, rail for the shoe at the top.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/open_top.png" alt="Top view, clamp open with the cane entering from the side" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>Open: the stick goes in from the side (arrow). No need to take the cane apart.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/assembly.png" alt="Clamp on the cane with the shoe and the box" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>On the cane: clamp, orange shoe, and the existing box (grey outline). Red = the one screw.</figcaption></figure>
+    </div>
+    <div class="card">
+      <h3>Notes</h3>
+      <ul>
+        <li><b>Screw ears made heavy</b> after the Founder saw the old clamp crack at the screw hole. Each ear is 7.5 mm thick with 5.8 mm of plastic outside the hole (it was 3.3 mm).</li>
+        <li><b>Bore</b> = cane + 0.4 mm, with 16 small grip ribs and chamfered ends so it does not scratch the cane. The 1.6 mm gap at the ears is the clamping travel. Tighten until it will not turn by hand, and do not crush the tube.</li>
+        <li><b>Cane size.</b> The Founder's tape around the stick (metal end under the wrap) reads about 51 mm circumference, so about 16.2 mm. That is why a 16.6 spare is included. The earlier 11–16 mm C-arc gauges did not fit.</li>
+        <li>Keep the clamp at least 10 mm from a telescope joint so the cane can still fold.</li>
+        <li><b>Nothing is printed without the Founder's GO.</b> The fit is a mechanical check, not proof of safe walking.</li>
+      </ul>
+    </div>
+    <table><thead><tr><th>Step</th><th>Files</th><th>X1C</th></tr></thead><tbody>
+      <tr><td>1. Fit test: short 14 mm clamps at 16.2 and 16.6</td><td><a href="clamp/X1C_TEST_wrap14mm_od16p2_od16p6.3mf">3mf</a> · <a href="clamp/TEST_wrap14mm_od16p2.stl">16.2 STL</a> · <a href="clamp/TEST_wrap14mm_od16p6.stl">16.6 STL</a></td><td class="n">≈52 min · 20 g</td></tr>
+      <tr><td>2. Full 30 mm clamp at the chosen size + shoe</td><td><a href="clamp/X1C_wrap30mm_od16p2_shoe.3mf">3mf (16.2)</a> · <a href="clamp/wrap30mm_od16p2.stl">16.2</a> · <a href="clamp/wrap30mm_od16p6.stl">16.6</a> · <a href="clamp/shoe.stl">shoe</a></td><td class="n">≈1 h 18 min · 31 g</td></tr>
+    </tbody></table>
+    <p class="note">PLA or PETG, 0.20 mm layers, 6 walls, 40% infill, no supports, halves printed upright. Hardware: 1 × M3 × 16 + M3 nut (clamp), 2 × M4 (shoe to catcher). Editable source: <a href="clamp/v1_clamp_wrap.scad">v1_clamp_wrap.scad</a> (OpenSCAD, set <code>CANE_OD_MM</code>).</p>
+  </section>
+
+  <header class="head">
     <div class="eyebrow">ACCESS Smart Cane · Directive 151 · 3 Nov 2026 · preview for Founder approval</div>
-    <h1>Cane enclosure: four-eye and two-eye versions</h1>
+    <h2 style="font-size:1.6em">Cane enclosure: four-eye and two-eye versions</h2>
     <p>Two designs on the same 64 mm wide, 30 mm deep box. <b>A</b> carries two HC-SR04 boards: upper pair straight ahead, lower pair in a nose angled 18° down. <b>B</b> carries one HC-SR04 facing forward and is 20 mm shorter. Both have a centre indicator LED, a power slide switch, a micro-USB charge opening and two bottom cable outlets. Both hold Tope's controller board, battery and wiring on a removable tray, and clamp to the cane with two screw collars. Nothing has been sliced or printed.</p>
     <div class="status">
       <span class="pill ok">Both designs: no part collisions (CAD check)</span>
