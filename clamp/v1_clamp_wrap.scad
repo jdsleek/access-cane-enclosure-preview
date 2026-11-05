@@ -184,6 +184,47 @@ if (part == "wrap_test_print") { wrapA(14); translate([0, -34, 0]) wrapB(14); }
 if (part == "check_wrap") intersection(){ linear_extrude(1) A2d(); linear_extrude(1) B2d(); }
 if (part == "check_wrap_open") intersection(){ linear_extrude(1) A2d(); w_rotB(-55) linear_extrude(1) B2d(); }
 
+
+// ======================= DEVICE 2 / DEVICE 3 ADAPTER (Directive 169) =======================
+// Devices 2 and 3 = enclosure_151 prints (B "two" H=110, one HC-SR04; A "four" H=130, two HC-SR04). ASSUMED from the 151 CAD
+// that Tope printed: the box holds the cane with TWO split collars on its back plate, bore 22 mm (placeholder, too big for the stick).
+// Adapter = a 22 mm "dummy cane" post that the box's OWN collars clamp (existing M4 screws, no box changes) + the shoe that slides
+// onto the wrap clamp's rail on the real stick.  Cane -> wrap clamp (ONE M3) -> rail -> shoe+post -> box collars (existing) -> box.
+post_d   = 21.6;                     // 151 collar bore = 22.0 nominal (prints ~21.8); the 2 mm collar split closes ~0.6 more
+w151 = 64; zc151 = 48;               // 151 in-use frame: box width, cane/collar axis z (BD 30 + zc 18)
+shoe_top = clamp_len + 0.2 + 3; shoe_bot = -7; shoe_mid = (shoe_top + shoe_bot)/2;
+Px = (xp + plate) + post_d/2 - 1.5; // post axis, fused 1.5 mm into the shoe back plate
+function H151(v) = v == "four" ? 130 : 110;
+module post_adapter(v){ Hb = H151(v); L = Hb - 4; z0 = shoe_mid - Hb/2 + 2;     // post spans box y 2..H-2 (collars at 4..22 and H-22..H-4)
+  union(){
+    shoe();
+    translate([Px, 0, z0]) difference(){ cylinder(d=post_d, h=L, $fn=96);
+      translate([0,0,-0.01]) difference(){ cylinder(d=post_d + 2, h=1); cylinder(d1=post_d - 1.6, d2=post_d + 0.4, h=1); }
+      translate([0,0,L - 0.99]) difference(){ cylinder(d=post_d + 2, h=1); cylinder(d1=post_d + 0.4, d2=post_d - 1.6, h=1); } }
+    hull(){ translate([xp + plate - 1.2, -9, shoe_bot]) cube([1.2, 18, shoe_top - shoe_bot]); translate([Px, 0, shoe_bot]) cylinder(d=post_d - 2, h=shoe_top - shoe_bot); }  // web
+  } }
+module box151(v, ex=0){ Hb = H151(v);   // existing device in 151 in-use coords -> this frame (box front faces +X, away from the cane)
+  multmatrix([[0,0,-1, Px + zc151 + ex], [-1,0,0, w151/2], [0,1,0, shoe_mid - Hb/2], [0,0,0,1]]) {
+    color([0.12,0.12,0.13]) import(str("../ref151/", v, "/u_body.stl"));
+    if (v == "four") color([0.12,0.12,0.13]) import("../ref151/four/u_nose.stl");
+    color([0.22,0.22,0.24]) import(str("../ref151/", v, "/u_plate.stl"));
+    color([0.3,0.3,0.32]) translate([0, 0, ex > 0 ? 0 : 0]) import(str("../ref151/", v, "/u_caps.stl")); } }
+module dev_assembly(v, ex=0){
+  rotate([0,0,-90]){ color("#2f3338") wrapA(); color("#4a6fa5") wrapB(); w_screw(); }
+  color("#e07a1f") translate([ex*0.6, 0, 0]) post_adapter(v);
+  box151(v, ex*1.6);
+  color([0.95,0.95,0.95]) translate([0,0,-120]) cylinder(d=od, h=300);
+}
+if (part == "d2_assembly") dev_assembly("two");
+if (part == "d3_assembly") dev_assembly("four");
+if (part == "d2_exploded") dev_assembly("two", 25);
+if (part == "d3_exploded") dev_assembly("four", 25);
+if (part == "adapter_D2_print") translate([-Px, 0, -(shoe_mid - 110/2 + 2)]) post_adapter("two");
+if (part == "adapter_D3_print") translate([-Px, 0, -(shoe_mid - 130/2 + 2)]) post_adapter("four");
+if (part == "check_d3") intersection(){ post_adapter("four"); box151("four"); }
+if (part == "check_d2") intersection(){ post_adapter("two"); box151("two"); }
+if (part == "check_d3_cane") intersection(){ box151("four"); translate([0,0,-120]) cylinder(d=od + 4, h=300); }
+
 // ======================= GHOSTS + OUTPUT =======================
 module ghost_screw(){ // the ONE screw, highlighted
   color("#ff2d2d") { translate([xs, split_gap/2 + 3 + 2.8, zs]) rotate([90,0,0]) cylinder(d=5.5, h=3); translate([xs, split_gap/2 + 3, zs]) rotate([90,0,0]) cylinder(d=3, h=10); }

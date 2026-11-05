@@ -71,11 +71,12 @@ code,.mono{font-family:var(--f-mono);font-size:13px}
 
 <div class="wrap">
   <header class="head">
-    <div class="eyebrow">ACCESS Smart Cane · all device designs · updated 5 Nov 2026 10:55 WAT</div>
+    <div class="eyebrow">ACCESS Smart Cane · all device designs · updated 5 Nov 2026 12:55 WAT</div>
     <h1>ACCESS cane designs</h1>
     <p>All ACCESS physical designs are on this one page. The CAD source and every file are also in <a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS">GitHub DESIGNS</a>.</p>
     <table><thead><tr><th>Design</th><th>Status</th></tr></thead><tbody>
-      <tr><td><a href="#clamp-h"><b>V1 wrap-around cane clamp</b></a>: one screw, fits the thin stick, works with the present device</td><td><span class="pill warn">ACTIVE today · fit test next · not printed</span></td></tr>
+      <tr><td><a href="#clamp-h"><b>V1 wrap-around cane clamp</b></a>: one screw, fits the thin stick, works with the present device</td><td><span class="pill ok">FIT TEST PASSED 5 Nov: grips the stick</span></td></tr>
+      <tr><td><a href="#dev23-h"><b>Device 2 + Device 3 adapters</b></a>: fit the existing boxes onto the wrap clamp</td><td><span class="pill warn">ADAPTER READY · needs physical check · not printed</span></td></tr>
       <tr><td><a href="#bench-h">Enclosure 151: four-eye (A) and two-eye (B)</a></td><td><span class="pill">Preview from 3 Nov</span></td></tr>
       <tr><td>Designer casing (WhatsApp 3mf, 4 Nov 23:59)</td><td><span class="pill bad">ON HOLD: Founder said do not print (stopped 5 Nov 09:22 while preheating)</span></td></tr>
       <tr><td><a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS/V1-CANE-CLAMP/archive-full-catcher">Full V1 catcher drafts (cradle + bridge)</a></td><td><span class="pill">Archived option</span></td></tr>
@@ -114,6 +115,39 @@ code,.mono{font-family:var(--f-mono);font-size:13px}
       <tr><td>2. Full 30 mm clamp at the chosen size + shoe</td><td><a href="clamp/X1C_wrap30mm_od16p2_shoe.3mf">3mf (16.2)</a> · <a href="clamp/wrap30mm_od16p2.stl">16.2</a> · <a href="clamp/wrap30mm_od16p6.stl">16.6</a> · <a href="clamp/shoe.stl">shoe</a></td><td class="n">≈1 h 18 min · 31 g</td></tr>
     </tbody></table>
     <p class="note">PLA or PETG, 0.20 mm layers, 6 walls, 40% infill, no supports, halves printed upright. Hardware: 1 × M3 × 16 + M3 nut (clamp), 2 × M4 (shoe to catcher). Editable source: <a href="clamp/v1_clamp_wrap.scad">v1_clamp_wrap.scad</a> (OpenSCAD, set <code>CANE_OD_MM</code>).</p>
+  </section>
+
+
+  <section class="sheet" aria-labelledby="dev23-h">
+    <div class="eyebrow">Directive 169 · 5 Nov 12:55</div>
+    <h2 id="dev23-h">Device 2 and Device 3: fit the existing boxes onto the wrap clamp</h2>
+    <p><b>The wrap clamp test PASSED</b> (Founder, 5 Nov): it sizes and grips the stick. Now the existing boxes have to go onto it, <b>with no changes to the boxes</b>.</p>
+    <p><b>How.</b> Devices 2 and 3 are the enclosure-151 prints further down this page: Device 2 = two-eye (110 mm, one sensor) and Device 3 = four-eye (130 mm, two sensors). Each box holds the cane with <b>two split collars on its back plate</b>. Their bore is 22 mm (a placeholder), which is why they are far too big for the 16 mm stick.</p>
+    <p>The adapter is a <b>22 mm "dummy cane" post with the shoe built on</b>. The box's <b>own two collars clamp the post</b>, with their existing M4 screws, exactly as they were made to clamp a cane. The shoe slides down onto the rail of the wrap clamp on the real stick and clicks in. The chain is: stick → wrap clamp (ONE M3) → rail → shoe + post → the box's own collars → box.</p>
+    <div class="status">
+      <span class="pill ok">No drilling, no box reprint, electronics untouched</span>
+      <span class="pill ok">Sensors and the lower nose face forward, nothing in front</span>
+      <span class="pill ok">Box comes off; the clamp stays on the stick</span>
+      <span class="pill ok">Adapters: 0 bad edges, no supports</span>
+      <span class="pill warn">ASSUMED: the boxes were printed from the 151 CAD with the 22 mm collars</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+      <figure class="draw" style="margin:0"><img src="clamp/dev23/d2_assembly.png" alt="Device 2 on the cane with adapter and wrap clamp" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption><b>Device 2</b> (two-eye, 110 mm) on the stick. Orange = adapter post + shoe, blue/dark = wrap clamp.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/dev23/d3_assembly.png" alt="Device 3 on the cane with adapter and wrap clamp" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption><b>Device 3</b> (four-eye, 130 mm, angled lower nose) on the stick. Same wrap clamp.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/dev23/d3_exploded.png" alt="Device 3 exploded: box, adapter post, clamp, cane" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>Exploded: the box's two collars close on the orange post, and the shoe slides onto the clamp rail.</figcaption></figure>
+    </div>
+    <div class="card"><h3>Fitting (about 5 minutes per device)</h3><ul>
+      <li>Undo the 4 M4 screws of the box's two collar caps (the cane screws you already have) and lift the caps off.</li>
+      <li>Lay the orange post in the two collars, <b>shoe facing away from the box</b>. Refit the caps and tighten the 4 M4 screws snug, until the post does not turn.</li>
+      <li>Put the wrap clamp around the stick at the height you want and tighten its ONE M3 screw.</li>
+      <li>Slide the box's shoe down onto the clamp rail until the finger clicks. To remove the box: press the finger tab and lift.</li>
+    </ul></div>
+    <table><thead><tr><th>Device</th><th>Status</th><th>Files</th><th>X1C</th></tr></thead><tbody>
+      <tr><td>Device 2 (two-eye, 110)</td><td><span class="pill warn">ADAPTER READY · REQUIRES PHYSICAL CHECK</span></td><td><a href="clamp/dev23/X1C_adapter_D2.3mf">3mf</a> · <a href="clamp/dev23/adapter_D2.stl">STL</a></td><td class="n">≈69 min · 41 g</td></tr>
+      <tr><td>Device 3 (four-eye, 130)</td><td><span class="pill warn">ADAPTER READY · REQUIRES PHYSICAL CHECK</span></td><td><a href="clamp/dev23/X1C_adapter_D3.3mf">3mf</a> · <a href="clamp/dev23/adapter_D3.stl">STL</a></td><td class="n">≈77 min · 47 g</td></tr>
+      <tr><td>Wrap clamp, full 30 mm (one per device)</td><td><span class="pill ok">Test size passed</span></td><td><a href="clamp/X1C_wrap30mm_od16p2_shoe.3mf">3mf (16.2)</a> · <a href="clamp/wrap30mm_od16p2.stl">16.2</a> · <a href="clamp/wrap30mm_od16p6.stl">16.6</a></td><td class="n">≈40 min each</td></tr>
+    </tbody></table>
+    <p class="note"><b>Notes.</b> Clearances come from the enclosure-151 design numbers: post-to-collar 0.2 mm all round, post-to-plate 0.7 mm, shoe clear of the collar caps by 6 mm or more along the cane, stick-to-box 8 mm or more. The box now sits about 3 cm further from the stick than before. Post Ø21.6: if a collar can't close tight on it, a layer of tape fixes it. If Tope changed the collars (bore not 22, or no collars), a quick back photo is the one thing needed. Hardware: 1 × M3 × 16 + nut per clamp; the 4 existing M4 per box. <b>Nothing is printed without the Founder's GO.</b></p>
   </section>
 
   <header class="head">
