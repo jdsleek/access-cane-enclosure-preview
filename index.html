@@ -71,12 +71,13 @@ code,.mono{font-family:var(--f-mono);font-size:13px}
 
 <div class="wrap">
   <header class="head">
-    <div class="eyebrow">ACCESS Smart Cane · all device designs · updated 5 Nov 2026 12:55 WAT</div>
+    <div class="eyebrow">ACCESS Smart Cane · all device designs · updated 5 Nov 2026 13:10 WAT</div>
     <h1>ACCESS cane designs</h1>
     <p>All ACCESS physical designs are on this one page. The CAD source and every file are also in <a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS">GitHub DESIGNS</a>.</p>
     <table><thead><tr><th>Design</th><th>Status</th></tr></thead><tbody>
       <tr><td><a href="#clamp-h"><b>V1 wrap-around cane clamp</b></a>: one screw, fits the thin stick, works with the present device</td><td><span class="pill ok">FIT TEST PASSED 5 Nov: grips the stick</span></td></tr>
-      <tr><td><a href="#dev23-h"><b>Device 2 + Device 3 adapters</b></a>: fit the existing boxes onto the wrap clamp</td><td><span class="pill warn">ADAPTER READY · needs physical check · not printed</span></td></tr>
+      <tr><td><a href="#red-h"><b>Device 2 + Device 3 reducer sleeves</b></a>: the boxes' own collars grip the stick directly</td><td><span class="pill warn">ACTIVE · READY · coupon first · not printed</span></td></tr>
+      <tr><td><a href="#dev23-h">Device 2 + 3 post adapters</a></td><td><span class="pill">SUPERSEDED by the reducers (too big: 41–47 g, +3 cm)</span></td></tr>
       <tr><td><a href="#bench-h">Enclosure 151: four-eye (A) and two-eye (B)</a></td><td><span class="pill">Preview from 3 Nov</span></td></tr>
       <tr><td>Designer casing (WhatsApp 3mf, 4 Nov 23:59)</td><td><span class="pill bad">ON HOLD: Founder said do not print (stopped 5 Nov 09:22 while preheating)</span></td></tr>
       <tr><td><a href="https://github.com/jdsleek/zap-central-reports/tree/main/DESIGNS/V1-CANE-CLAMP/archive-full-catcher">Full V1 catcher drafts (cradle + bridge)</a></td><td><span class="pill">Archived option</span></td></tr>
@@ -118,9 +119,42 @@ code,.mono{font-family:var(--f-mono);font-size:13px}
   </section>
 
 
+
+  <section class="sheet" aria-labelledby="red-h">
+    <div class="eyebrow">Directive 170 · 5 Nov 13:10 · ACTIVE for Devices 2 and 3</div>
+    <h2 id="red-h">Devices 2 and 3: reducer sleeves in the existing collars</h2>
+    <p><b>Simplest fix.</b> Each box already has two split collars on its back (enclosure 151: 22 mm bore, 2 × M4 each), but they are too big for the 16.2 mm stick. Two small printed <b>half-sleeves per collar</b> fill the gap, and the box's <b>own collar screws</b> clamp them straight onto the stick. There is no shoe, no post and no stand-off. The box sits where it was designed to sit, and the sensors, wiring and lid are untouched.</p>
+    <div class="status">
+      <span class="pill ok">8.8 g / 26 min per device</span>
+      <span class="pill ok">No box changes, no drilling</span>
+      <span class="pill ok">Prints upright, no supports, 0 bad edges</span>
+      <span class="pill warn">Uses the box's 4 existing M4 screws, not the one-screw clamp</span>
+      <span class="pill warn">ASSUMED: collar bore 22 mm (151 CAD), not yet measured on the backs</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+      <figure class="draw" style="margin:0"><img src="clamp/reducer/half.png" alt="One half-sleeve" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>One half-sleeve: grip ribs inside, a lip at each end so it cannot walk out of the collar.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/reducer/top.png" alt="Two halves around the stick, end view" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption>End view: 2 halves around the 16.2 stick, 2.6 mm wall, with small gaps so the collar can squeeze them.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/reducer/show_d3.png" alt="Device 3 back with sleeves in both collars on the stick" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption><b>Device 3</b> back: sleeves (orange) inside both collars, stick through.</figcaption></figure>
+      <figure class="draw" style="margin:0"><img src="clamp/reducer/show_d2.png" alt="Device 2 back with sleeves in both collars on the stick" style="width:100%;height:auto;border-radius:4px;background:#f8f8f8"><figcaption><b>Device 2</b> back: same sleeves, same size.</figcaption></figure>
+    </div>
+    <div class="card"><h3>Fitting (about 3 minutes per device)</h3><ul>
+      <li>Undo the 4 M4 screws and lift off the 2 collar caps. Remove any old packing.</li>
+      <li>Put one half-sleeve in each collar seat, lips outside the collar faces. Lay the stick in. Put the other half on top of the stick in each collar, with its gap lined up with the collar split.</li>
+      <li>Refit the caps and tighten the 4 M4 screws evenly until the box does not turn or slide. Do not crush the tube.</li>
+      <li>Keep both collars at least 10 mm away from a telescope joint.</li>
+    </ul></div>
+    <table><thead><tr><th>Print</th><th>Files</th><th>X1C</th></tr></thead><tbody>
+      <tr><td><b>1. Coupon</b>: one collar (2 halves). Check fit and grip on one box first.</td><td><a href="clamp/reducer/X1C_reducer_coupon_print.3mf">3mf</a> · <a href="clamp/reducer/coupon_print.stl">STL</a></td><td class="n">13 min · 4.4 g</td></tr>
+      <tr><td>2. One device (4 halves)</td><td><a href="clamp/reducer/X1C_reducer_set_print.3mf">3mf</a> · <a href="clamp/reducer/set_print.stl">STL</a></td><td class="n">26 min · 8.8 g</td></tr>
+      <tr><td>2b. Both devices (8 halves)</td><td><a href="clamp/reducer/X1C_reducer_both_D2_D3.3mf">3mf</a> · <a href="clamp/reducer/both_print.stl">STL</a></td><td class="n">51 min · 17.5 g</td></tr>
+    </tbody></table>
+    <p class="note"><b>Notes.</b> Sleeve 21.8 mm outside × 16.4 mm inside, with 16 grip ribs 0.3 mm high, 18 mm collar length + 1.4 mm lips. If the coupon is loose in the collar (bore bigger than 22), tape under the sleeve or a 22.4 version fixes it. If it will not go in (bore smaller), print a 21.4 version. Both are a 1-number change in <a href="clamp/reducer/reducer_151.scad">reducer_151.scad</a>. The one-screw wrap clamp stays the design for new boxes. <b>Nothing is printed without the Founder's GO.</b></p>
+  </section>
+
   <section class="sheet" aria-labelledby="dev23-h">
     <div class="eyebrow">Directive 169 · 5 Nov 12:55</div>
-    <h2 id="dev23-h">Device 2 and Device 3: fit the existing boxes onto the wrap clamp</h2>
+    <h2 id="dev23-h">(SUPERSEDED) Device 2 and Device 3 post adapters</h2>
+    <p class="note"><b>Superseded 5 Nov 13:10 by the reducer sleeves above</b> (Founder: too big, 41–47 g, adds 3 cm). Kept for reference.</p>
     <p><b>The wrap clamp test PASSED</b> (Founder, 5 Nov): it sizes and grips the stick. Now the existing boxes have to go onto it, <b>with no changes to the boxes</b>.</p>
     <p><b>How.</b> Devices 2 and 3 are the enclosure-151 prints further down this page: Device 2 = two-eye (110 mm, one sensor) and Device 3 = four-eye (130 mm, two sensors). Each box holds the cane with <b>two split collars on its back plate</b>. Their bore is 22 mm (a placeholder), which is why they are far too big for the 16 mm stick.</p>
     <p>The adapter is a <b>22 mm "dummy cane" post with the shoe built on</b>. The box's <b>own two collars clamp the post</b>, with their existing M4 screws, exactly as they were made to clamp a cane. The shoe slides down onto the rail of the wrap clamp on the real stick and clicks in. The chain is: stick → wrap clamp (ONE M3) → rail → shoe + post → the box's own collars → box.</p>
